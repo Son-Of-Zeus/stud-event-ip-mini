@@ -1,4 +1,6 @@
-# Stud Event Frontend
+# Student Event Platform
+
+This repository contains a student event platform with separate backend services and a React frontend.
 
 ## Features
 
@@ -6,5 +8,5 @@
   - Event pages require faculty login
   - Student-events page requires student login
   - Unauthenticated users are redirected to relevant login pages
-- JWT authentication
+- JWT Authentication
 - TailwindCSS
