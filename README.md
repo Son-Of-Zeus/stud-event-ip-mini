@@ -3,7 +3,7 @@
 This repository contains a student event platform with separate backend services and a React frontend.
 
 ## Features
-- Microservice Architecture
+
 - Route protection (full app behavior)
   - Event pages require faculty login
   - Student-events page requires student login
