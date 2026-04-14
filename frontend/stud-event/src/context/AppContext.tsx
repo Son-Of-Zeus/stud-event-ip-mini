@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useState, useEffect, type ReactNode } from 'react'
 
 import { apiBases, getErrorMessage, requestJson } from '../lib/api'
 import type {
@@ -76,10 +76,52 @@ function mapEventToForm(eventModel: EventModel): EventForm {
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState('')
-  const [activeFaculty, setActiveFaculty] = useState<FacultySession | null>(null)
-  const [activeStudent, setActiveStudent] = useState<StudentSession | null>(null)
-  const [facultyAuthorization, setFacultyAuthorization] = useState<string | null>(null)
-  const [studentAuthorization, setStudentAuthorization] = useState<string | null>(null)
+  const [activeFaculty, setActiveFaculty] = useState<FacultySession | null>(() => {
+    const saved = localStorage.getItem('activeFaculty')
+    return saved ? JSON.parse(saved) : null
+  })
+  const [activeStudent, setActiveStudent] = useState<StudentSession | null>(() => {
+    const saved = localStorage.getItem('activeStudent')
+    return saved ? JSON.parse(saved) : null
+  })
+  const [facultyAuthorization, setFacultyAuthorization] = useState<string | null>(() => {
+    return localStorage.getItem('facultyAuthorization') || null
+  })
+  const [studentAuthorization, setStudentAuthorization] = useState<string | null>(() => {
+    return localStorage.getItem('studentAuthorization') || null
+  })
+
+  useEffect(() => {
+    if (activeFaculty) {
+      localStorage.setItem('activeFaculty', JSON.stringify(activeFaculty))
+    } else {
+      localStorage.removeItem('activeFaculty')
+    }
+  }, [activeFaculty])
+
+  useEffect(() => {
+    if (activeStudent) {
+      localStorage.setItem('activeStudent', JSON.stringify(activeStudent))
+    } else {
+      localStorage.removeItem('activeStudent')
+    }
+  }, [activeStudent])
+
+  useEffect(() => {
+    if (facultyAuthorization) {
+      localStorage.setItem('facultyAuthorization', facultyAuthorization)
+    } else {
+      localStorage.removeItem('facultyAuthorization')
+    }
+  }, [facultyAuthorization])
+
+  useEffect(() => {
+    if (studentAuthorization) {
+      localStorage.setItem('studentAuthorization', studentAuthorization)
+    } else {
+      localStorage.removeItem('studentAuthorization')
+    }
+  }, [studentAuthorization])
 
   const [facultyForm, setFacultyForm] = useState<FacultyForm>({
     facultyId: '',
