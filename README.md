@@ -9,4 +9,5 @@ This repository contains a student event platform with separate backend services
   - Student-events page requires student login
   - Unauthenticated users are redirected to relevant login pages
 - JWT Authentication
+- Authentication peristence using Local Storage
 - TailwindCSS
