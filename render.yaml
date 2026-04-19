@@ -54,7 +54,7 @@ services:
         fromService:
           name: student-event-service
           type: web
-          property: url
+          property: connectionString
       - key: JWT_SECRET
         fromService:
           name: faculty-service
@@ -77,14 +77,14 @@ services:
         fromService:
           name: faculty-service
           type: web
-          property: url
+          property: connectionString
       - key: STUDENT_API_URL
         fromService:
           name: student-service
           type: web
-          property: url
+          property: connectionString
       - key: EVENT_API_URL
         fromService:
           name: student-event-service
           type: web
-          property: url
+          property: connectionString
