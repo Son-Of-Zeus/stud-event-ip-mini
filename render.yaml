@@ -51,10 +51,7 @@ services:
           type: web
           envVarKey: SPRING_MONGODB_URI
       - key: EVENT_SERVICE_URL
-        fromService:
-          name: student-event-service
-          type: web
-          property: connectionString
+        sync: false
       - key: JWT_SECRET
         fromService:
           name: faculty-service
@@ -74,17 +71,8 @@ services:
     healthCheckPath: /
     envVars:
       - key: FACULTY_API_URL
-        fromService:
-          name: faculty-service
-          type: web
-          property: connectionString
+        sync: false
       - key: STUDENT_API_URL
-        fromService:
-          name: student-service
-          type: web
-          property: connectionString
+        sync: false
       - key: EVENT_API_URL
-        fromService:
-          name: student-event-service
-          type: web
-          property: connectionString
+        sync: false
