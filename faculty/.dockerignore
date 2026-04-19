@@ -1,0 +1,10 @@
+target/
+!target/faculty-0.0.1-SNAPSHOT.jar
+*.log
+*.class
+.git
+.gitignore
+.idea
+*.iml
+*.md
+.mvn/wrapper/maven-wrapper.jar

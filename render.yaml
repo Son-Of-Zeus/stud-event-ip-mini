@@ -1,0 +1,90 @@
+services:
+  - type: web
+    name: faculty-service
+    runtime: docker
+    dockerfilePath: ./faculty/Dockerfile
+    dockerContext: ./faculty
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: SPRING_MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_ISSUER
+        value: student-event-platform
+      - key: JWT_ACCESS_TOKEN_TTL_MINUTES
+        value: "60"
+
+  - type: web
+    name: student-event-service
+    runtime: docker
+    dockerfilePath: ./src/Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: SPRING_MONGODB_URI
+        fromService:
+          name: faculty-service
+          type: web
+          envVarKey: SPRING_MONGODB_URI
+      - key: JWT_SECRET
+        fromService:
+          name: faculty-service
+          type: web
+          envVarKey: JWT_SECRET
+      - key: JWT_ISSUER
+        value: student-event-platform
+
+  - type: web
+    name: student-service
+    runtime: docker
+    dockerfilePath: ./student/Dockerfile
+    dockerContext: ./student
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: SPRING_MONGODB_URI
+        fromService:
+          name: faculty-service
+          type: web
+          envVarKey: SPRING_MONGODB_URI
+      - key: EVENT_SERVICE_URL
+        fromService:
+          name: student-event-service
+          type: web
+          property: url
+      - key: JWT_SECRET
+        fromService:
+          name: faculty-service
+          type: web
+          envVarKey: JWT_SECRET
+      - key: JWT_ISSUER
+        value: student-event-platform
+      - key: JWT_ACCESS_TOKEN_TTL_MINUTES
+        value: "60"
+
+  - type: web
+    name: frontend
+    runtime: docker
+    dockerfilePath: ./frontend/stud-event/Dockerfile
+    dockerContext: ./frontend/stud-event
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: FACULTY_API_URL
+        fromService:
+          name: faculty-service
+          type: web
+          property: url
+      - key: STUDENT_API_URL
+        fromService:
+          name: student-service
+          type: web
+          property: url
+      - key: EVENT_API_URL
+        fromService:
+          name: student-event-service
+          type: web
+          property: url

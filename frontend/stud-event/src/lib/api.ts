@@ -1,6 +1,6 @@
-const facultyApiBase = 'http://localhost:8081/api/faculty'
-const studentApiBase = 'http://localhost:8082/api/student'
-const eventApiBase = 'http://localhost:8083/api/event'
+const facultyApiBase = import.meta.env.VITE_FACULTY_API_URL || 'http://localhost:8081/api/faculty'
+const studentApiBase = import.meta.env.VITE_STUDENT_API_URL || 'http://localhost:8082/api/student'
+const eventApiBase = import.meta.env.VITE_EVENT_API_URL || 'http://localhost:8083/api/event'
 
 type ErrorPayload = {
   message?: string

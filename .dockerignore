@@ -1,0 +1,11 @@
+.git
+.gitignore
+.idea
+.vscode
+target
+student
+faculty
+frontend
+*.iml
+*.md
+*.DS_Store
